@@ -1,6 +1,6 @@
-# Project Name
+# City Explorer
 
-**Author**: Your Name Goes Here
+**Author**: Ryan Hoffman
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
@@ -21,8 +21,21 @@
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 
 ## Lab-06 Time Estimates 
-- Name of feature: ________________________________
-- Estimate of time needed to complete: _____
-- Start time: _____
-- Finish time: _____
-- Actual time needed to complete: _____
+
+- Name of feature: City Search Form
+- Estimate of time needed to complete: 4 hrs
+- Start time: 1:00am
+- Finish time: 3:45am
+- Actual time needed to complete: 2 hrs, 45 mins
+
+- Name of feature: Map
+- Estimate of time needed to complete: 2 hrs
+- Start time: 4:00am
+- Finish time: 4:45am
+- Actual time needed to complete: 45mins
+
+- Name of feature: Error Handling
+- Estimate of time needed to complete: 1 hr
+- Start time: 5:07am
+- Finish time: 6:02am
+- Actual time needed to complete: 55mins
