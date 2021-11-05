@@ -1,53 +1,50 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
-// enter a city into a search bar
-// reach out via axios to locationIQ and get data back on that city
+import Header from './components/Header.js';
+import Main from './components/Main.js';
+import Footer from './components/Footer.js';
+import Alert from 'react-bootstrap/Alert';
 
 export default class App extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      cityValue: '',
-      //error: false
+      location: null,
+      map: null,
+      error: false
     }
   }
 
-  handleClick = async () => {
-    // take the state from cityValue and make an axios request using that city
-    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.cityValue}&format=json`;
-    // Location iq gets hit with a request to this path: https://us1.locationiq.com/v1/search.php... then as part of the request it also gets a search query object
-    // the url needs a few more things search query params
-    //     key: YOUR_ACCESS_TOKEN
-    // q: SEARCH_STRING
-    // format: 'json'
+  getLocation = async (city) => {
 
-    //try {
-      let response = await axios.get(url)
-      // the response is the entire http response
-      // axios calls the body 'data'
+    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${city}&format=json`;
+
+    try {
+      let response = await axios.get(url);
       console.log(response.data[0]);
       this.setState({location: response.data[0]})
-    // } catch (e) {
-    //   console.error(e);
-    //   this.setState({ error: true })
-    // }
-      
+      this.getmap();
+    } catch (err) {
+      this.setState({error: true});
+    }
   }
 
-  handleChange = (e) => {
-    this.setState({ cityValue: e.target.value })
+  getmap = () => {
+
+    const url = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${this.state.location.lat},${this.state.location.lon}&zoom=10`;
+
+    this.setState({map: url});
   }
 
   render() {
     return (
-      <div>
-        <input onChange={this.handleChange} value={this.state.cityValue}/>
-        <p>{this.state.cityValue}</p>
-        <button onClick={this.handleClick}>Explore!</button>
-        {this.state.location && <h1>{this.state.location.display_name}</h1>}
-      </div>
+      <>
+        <Header></Header>
+        <Main map={this.state.map} getLocation={this.getLocation} location={this.state.location}></Main>
+        <Footer></Footer>
+        {this.state.error && <Alert variant='danger'>There has been an error!</Alert>}
+      </>
     )
   }
 }
