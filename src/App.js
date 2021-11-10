@@ -12,7 +12,9 @@ export default class App extends Component {
     this.state = {
       location: null,
       map: null,
-      error: false
+      forecast: null,
+      front_error: false,
+      back_error: false
     }
   }
 
@@ -23,10 +25,11 @@ export default class App extends Component {
     try {
       let response = await axios.get(url);
       console.log(response.data[0]);
-      this.setState({location: response.data[0]})
+      this.setState({location: response.data[0]});
       this.getmap();
+      this.getforecast(city);
     } catch (err) {
-      this.setState({error: true});
+      this.setState({front_error: true});
     }
   }
 
@@ -37,13 +40,28 @@ export default class App extends Component {
     this.setState({map: url});
   }
 
+  getforecast = async (name) => {
+
+    const forecast_url = `${process.env.REACT_APP_SERVER_URL}/weather?city_name=${name}&lon=${this.state.location.lon}&lat=${this.state.location.lat}`;
+
+    try {
+    let response = await axios.get(forecast_url);
+    this.setState({forecast: response.data});
+    console.log(this.state.forecast);
+    } catch (err) {
+      this.setState({back_error: true});
+      console.log(err);
+    }
+  }
+
   render() {
     return (
       <>
         <Header></Header>
-        <Main map={this.state.map} getLocation={this.getLocation} location={this.state.location}></Main>
+        <Main map={this.state.map} getLocation={this.getLocation} location={this.state.location} forecast={this.state.forecast}></Main>
         <Footer></Footer>
-        {this.state.error && <Alert variant='danger'>There has been an error!</Alert>}
+        {this.state.front_error && <Alert variant='danger'>There has been a front end error!</Alert>}
+        {this.state.back_error && <Alert variant='danger'>There has been a back end error!</Alert>}
       </>
     )
   }

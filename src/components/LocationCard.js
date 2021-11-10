@@ -11,10 +11,10 @@ export default class LocationCard extends Component {
         <Card.Body>
           <Card.Title>{this.props.location.display_name}</Card.Title>
             <Card.Text>
-                Latitude: {this.props.location.lat}
+                Longitude: {this.props.location.lon}
             </Card.Text>
             <Card.Text>
-                Longitude: {this.props.location.lon}
+                Latitude: {this.props.location.lat}
             </Card.Text>
         </Card.Body>
       </Card>
